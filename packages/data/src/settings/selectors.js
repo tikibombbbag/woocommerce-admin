@@ -49,8 +49,8 @@ export const getSettingsForGroup = ( state, group, keys ) => {
 	}, {} );
 };
 
-export const getIsPersisting = ( state, group ) => {
-	return state[ group ] && Boolean( state[ group ].isPersisting );
+export const getIsRequesting = ( state, group ) => {
+	return state[ group ] && Boolean( state[ group ].isRequesting );
 };
 
 /**

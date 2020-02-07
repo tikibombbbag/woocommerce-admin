@@ -33,11 +33,11 @@ export function updateErrorForGroup( group, data, error, time = new Date() ) {
 	};
 }
 
-export function setIsPersisting( group, isPersisting ) {
+export function setIsPersisting( group, isRequesting ) {
 	return {
 		type: TYPES.SET_IS_PERSISTING,
 		group,
-		isPersisting,
+		isRequesting,
 	};
 }
 

@@ -123,9 +123,9 @@ export default withSelect( ( select, props ) => {
 		skipChecked,
 	} = props;
 
-	const { getSettings, getIsPersisting, getSettingsError } = select( SETTINGS_STORE_NAME );
+	const { getSettings, getIsRequesting, getSettingsError } = select( SETTINGS_STORE_NAME );
 	const general = getSettings( 'general' );
-	console.log( 'isPersisting: ' + getIsPersisting( 'general' ) );
+	console.log( 'isRequesting: ' + getIsRequesting( 'general' ) );
 	console.log( 'isError: ' + getSettingsError( 'general' ) );
 	console.log( general );
 

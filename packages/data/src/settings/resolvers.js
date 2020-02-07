@@ -25,7 +25,7 @@ export function* getSettings( group ) {
 	yield dispatch( STORE_NAME, 'setIsPersisting', group, true );
 
 	try {
-		const url = NAMESPACE + '/settingsdfasdfs/' + group;
+		const url = NAMESPACE + '/settings/' + group;
 		const results = yield apiFetch( {
 			path: url,
 			method: 'GET',
