@@ -64,7 +64,7 @@ const receiveSettings = ( state = {}, { type, group, data, error, time, isPersis
 								: groupIds,
 						error,
 						lastReceived: time,
-						isPersisting: state[ group ] ? Boolean( state[ group ].isPersisting ) : false,
+						isPersisting: false,
 						dirty:
 							state[ group ] && state[ group ].dirty
 								? union( state[ group ].dirty, groupIds )

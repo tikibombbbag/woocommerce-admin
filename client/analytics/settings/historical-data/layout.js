@@ -123,8 +123,10 @@ export default withSelect( ( select, props ) => {
 		skipChecked,
 	} = props;
 
-	const { getSettings } = select( SETTINGS_STORE_NAME );
+	const { getSettings, getIsPersisting, getSettingsError } = select( SETTINGS_STORE_NAME );
 	const general = getSettings( 'general' );
+	console.log( 'isPersisting: ' + getIsPersisting( 'general' ) );
+	console.log( 'isError: ' + getSettingsError( 'general' ) );
 	console.log( general );
 
 	const inProgress =

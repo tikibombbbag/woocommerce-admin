@@ -87,5 +87,8 @@ export const getLastSettingsErrorForGroup = ( state, group ) => {
 };
 
 export const getSettingsError = ( state, group, id ) => {
-	return state[ getResourceName( group, id ) ].error;
+	if ( ! id ) {
+		return state[ group ].error || false;
+	}
+	return state[ getResourceName( group, id ) ].error || false;
 };

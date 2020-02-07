@@ -4,13 +4,14 @@
  * External Dependencies
  */
 
-import { apiFetch } from '@wordpress/data-controls';
+import { apiFetch, dispatch } from '@wordpress/data-controls';
 
 /**
  * Internal dependencies
  */
 import { NAMESPACE } from '../constants';
-import { updateSettingsForGroup } from './actions';
+import { STORE_NAME } from './constants';
+import { updateSettingsForGroup, updateErrorForGroup } from './actions';
 
 function settingsToSettingsResource( resourceName, settings ) {
 	return settings.reduce( ( resource, setting ) => {
@@ -21,14 +22,19 @@ function settingsToSettingsResource( resourceName, settings ) {
 }
 
 export function* getSettings( group ) {
-	const url = NAMESPACE + '/settings/' + group;
+	yield dispatch( STORE_NAME, 'setIsPersisting', group, true );
 
-	const results = yield apiFetch( {
-		path: url,
-		method: 'GET',
-	} );
+	try {
+		const url = NAMESPACE + '/settingsdfasdfs/' + group;
+		const results = yield apiFetch( {
+			path: url,
+			method: 'GET',
+		} );
 
-	const resource = settingsToSettingsResource( group, results );
+		const resource = settingsToSettingsResource( group, results );
 
-	return updateSettingsForGroup( group, resource );
+		return updateSettingsForGroup( group, resource );
+	} catch ( error ) {
+		return updateErrorForGroup( group, null, error.message );
+	}
 }
