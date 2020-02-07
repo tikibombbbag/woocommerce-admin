@@ -49,7 +49,7 @@ export const getSettingsForGroup = ( state, group, keys ) => {
 	}, {} );
 };
 
-export const getIsRequesting = ( state, group ) => {
+export const isGetSettingsRequesting = ( state, group ) => {
 	return state[ group ] && Boolean( state[ group ].isRequesting );
 };
 

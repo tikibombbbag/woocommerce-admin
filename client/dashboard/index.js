@@ -13,13 +13,19 @@ import CustomizableDashboard from './customizable';
 import ProfileWizard from './profile-wizard';
 import withSelect from 'wc-api/with-select';
 import { isOnboardingEnabled } from 'dashboard/utils';
+import { withSettingsHydration } from '@woocommerce/data';
+
+const HydratedProfileWizard = withSettingsHydration(
+	'general',
+	window.wcSettings.preloadSettings.general
+)( ProfileWizard );
 
 class Dashboard extends Component {
 	render() {
 		const { path, profileItems, query } = this.props;
 
 		if ( isOnboardingEnabled() && ! profileItems.completed ) {
-			return <ProfileWizard query={ query } />;
+			return <HydratedProfileWizard query={ query } />;
 		}
 
 		if ( window.wcAdminFeatures[ 'analytics-dashboard/customizable' ] ) {

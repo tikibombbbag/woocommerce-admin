@@ -13,12 +13,12 @@ export const useSettings = ( group, settingsKeys = [] ) => {
 				getLastSettingsErrorForGroup,
 				getSettingsForGroup,
 				getIsDirty,
-				getIsRequesting,
+				isGetSettingsRequesting,
 			} = select( STORE_NAME );
 			return {
 				requestedSettings: getSettingsForGroup( group, settingsKeys ),
 				settingsError: Boolean( getLastSettingsErrorForGroup( group ) ),
-				isRequesting: getIsRequesting( group ),
+				isRequesting: isGetSettingsRequesting( group ),
 				isDirty: getIsDirty( group, settingsKeys ),
 			};
 		},
