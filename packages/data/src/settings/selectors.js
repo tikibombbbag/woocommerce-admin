@@ -16,7 +16,7 @@ export const getSettingsGroupNames = state => {
 
 export const getSettings = ( state, group ) => {
 	const settings = {};
-	const settingIds = state[ group ].data || [];
+	const settingIds = state[ group ] && state[ group ].data || [];
 	if ( settingIds.length === 0 ) {
 		return settings;
 	}

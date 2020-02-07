@@ -11,6 +11,7 @@ import { SECOND } from '@fresh-data/framework';
  * WooCommerce dependencies
  */
 import { SectionHeader } from '@woocommerce/components';
+import { SETTINGS_STORE_NAME } from '@woocommerce/data';
 
 /**
  * Internal dependencies
@@ -121,6 +122,10 @@ export default withSelect( ( select, props ) => {
 		period,
 		skipChecked,
 	} = props;
+
+	const { getSettings } = select( SETTINGS_STORE_NAME );
+	const general = getSettings( 'general' );
+	console.log( general );
 
 	const inProgress =
 		( typeof lastImportStartTimestamp !== 'undefined' &&
