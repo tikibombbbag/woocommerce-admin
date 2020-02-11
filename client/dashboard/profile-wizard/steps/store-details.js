@@ -86,9 +86,9 @@ class StoreDetails extends Component {
 			createNotice,
 			goToNextStep,
 			isSettingsError,
-			updateSettings,
 			updateProfileItems,
 			isProfileItemsError,
+			updateAndPersistSettingsForGroup,
 		} = this.props;
 
 		const currencySettings = this.deriveCurrencySettings( values.countryState );
@@ -100,7 +100,7 @@ class StoreDetails extends Component {
 			setup_client: values.isClient,
 		} );
 
-		await updateSettings( {
+		await updateAndPersistSettingsForGroup( 'general', {
 			general: {
 				woocommerce_store_address: values.addressLine1,
 				woocommerce_store_address_2: values.addressLine2,
@@ -190,11 +190,11 @@ export default compose(
 		};
 	} ),
 	withSelect( select => {
-		const { getSettings, getSettingsError, isGetSettingsRequesting } = select(
+		const { getSettingsForGroup, getSettingsError, isGetSettingsRequesting } = select(
 			SETTINGS_STORE_NAME
 		);
 
-		const settings = getSettings( 'general' );
+		const { general: settings } = getSettingsForGroup( 'general', [ 'general' ] );
 		const isSettingsError = Boolean( getSettingsError( 'general' ) );
 		const isSettingsRequesting = isGetSettingsRequesting( 'general' );
 
@@ -206,12 +206,13 @@ export default compose(
 	} ),
 	withDispatch( dispatch => {
 		const { createNotice } = dispatch( 'core/notices' );
-		const { updateSettings, updateProfileItems } = dispatch( 'wc-api' );
+		const { updateProfileItems } = dispatch( 'wc-api' );
+		const { updateAndPersistSettingsForGroup } = dispatch( SETTINGS_STORE_NAME );
 
 		return {
 			createNotice,
-			updateSettings,
 			updateProfileItems,
+			updateAndPersistSettingsForGroup,
 		};
 	} )
 )( StoreDetails );

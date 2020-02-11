@@ -15,10 +15,9 @@ import withSelect from 'wc-api/with-select';
 import { isOnboardingEnabled } from 'dashboard/utils';
 import { withSettingsHydration } from '@woocommerce/data';
 
-const HydratedProfileWizard = withSettingsHydration(
-	'general',
-	window.wcSettings.preloadSettings.general
-)( ProfileWizard );
+const HydratedProfileWizard = withSettingsHydration( 'general', {
+	general: window.wcSettings.preloadSettings.general,
+} )( ProfileWizard );
 
 class Dashboard extends Component {
 	render() {
