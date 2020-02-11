@@ -132,11 +132,11 @@ class Tax extends Component {
 	}
 
 	configureTaxRates() {
-		const { generalSettings, updateSettings } = this.props;
+		const { generalSettings, updateAndPersistSettingsForGroup } = this.props;
 
 		if ( 'yes' !== generalSettings.woocommerce_calc_taxes ) {
 			this.setState( { isPending: true } );
-			updateSettings( {
+			updateAndPersistSettingsForGroup( 'general', {
 				general: {
 					woocommerce_calc_taxes: 'yes',
 				},
@@ -149,10 +149,10 @@ class Tax extends Component {
 	}
 
 	async updateAutomatedTax() {
-		const { createNotice, isTaxSettingsError, updateSettings } = this.props;
+		const { createNotice, isTaxSettingsError, updateAndPersistSettingsForGroup } = this.props;
 		const { automatedTaxEnabled } = this.state;
 
-		await updateSettings( {
+		await updateAndPersistSettingsForGroup( 'tax', {
 			tax: {
 				wc_connect_taxes_enabled: automatedTaxEnabled ? 'yes' : 'no',
 			},
@@ -412,11 +412,11 @@ export default compose(
 	} ),
 	withDispatch( dispatch => {
 		const { createNotice } = dispatch( 'core/notices' );
-		const { updateSettings } = dispatch( 'wc-api' );
+		const { updateAndPersistSettingsForGroup } = dispatch( SETTINGS_STORE_NAME );
 
 		return {
 			createNotice,
-			updateSettings,
+			updateAndPersistSettingsForGroup,
 		};
 	} )
 )( Tax );
