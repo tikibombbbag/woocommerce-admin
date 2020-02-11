@@ -8,7 +8,7 @@ import { Component, Fragment } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { difference, filter, get } from 'lodash';
 import interpolateComponents from 'interpolate-components';
-import { withDispatch } from '@wordpress/data';
+import { withDispatch, withSelect } from '@wordpress/data';
 
 /**
  * WooCommerce dependencies
@@ -16,6 +16,7 @@ import { withDispatch } from '@wordpress/data';
 import { Card, H, Link, Stepper } from '@woocommerce/components';
 import { getHistory, getNewPath } from '@woocommerce/navigation';
 import { getAdminLink, getSetting, setSetting } from '@woocommerce/wc-admin-settings';
+import { SETTINGS_STORE_NAME } from '@woocommerce/data';
 
 /**
  * Internal dependencies
@@ -24,7 +25,7 @@ import Connect from './steps/connect';
 import { getCountryCode } from 'dashboard/utils';
 import Plugins from './steps/plugins';
 import StoreLocation from './steps/location';
-import withSelect from 'wc-api/with-select';
+import withWCApiSelect from 'wc-api/with-select';
 import { recordEvent, queueRecordEvent } from 'lib/tracks';
 
 class Tax extends Component {
@@ -369,23 +370,9 @@ class Tax extends Component {
 }
 
 export default compose(
-	withSelect( select => {
-		const {
-			getActivePlugins,
-			getOptions,
-			getSettings,
-			getSettingsError,
-			isGetSettingsRequesting,
-			isJetpackConnected,
-		} = select( 'wc-api' );
+	withWCApiSelect( select => {
+		const { getActivePlugins, getOptions, isJetpackConnected } = select( 'wc-api' );
 
-		const generalSettings = getSettings( 'general' );
-		const isGeneralSettingsError = Boolean( getSettingsError( 'general' ) );
-		const isGeneralSettingsRequesting = isGetSettingsRequesting( 'general' );
-		const taxSettings = getSettings( 'tax' );
-		const isTaxSettingsError = Boolean( getSettingsError( 'tax' ) );
-		const isTaxSettingsRequesting = isGetSettingsRequesting( 'tax' );
-		const countryCode = getCountryCode( generalSettings.woocommerce_default_country );
 		const activePlugins = getActivePlugins();
 		const pluginsToActivate = difference( [ 'jetpack', 'woocommerce-services' ], activePlugins );
 		const options = getOptions( [ 'wc_connect_options', 'woocommerce_setup_jetpack_opted_in' ] );
@@ -394,16 +381,33 @@ export default compose(
 			wc_connect_options.tos_accepted || options.woocommerce_setup_jetpack_opted_in;
 
 		return {
-			countryCode,
-			isGeneralSettingsError,
-			isGeneralSettingsRequesting,
-			generalSettings,
-			isTaxSettingsError,
-			isTaxSettingsRequesting,
-			taxSettings,
 			isJetpackConnected: isJetpackConnected(),
 			pluginsToActivate,
 			tosAccepted,
+		};
+	} ),
+	withSelect( select => {
+		const { getSettingsForGroup, getSettingsError, isGetSettingsRequesting } = select(
+			SETTINGS_STORE_NAME
+		);
+
+		const { general: generalSettings } = getSettingsForGroup( 'general', [ 'general' ] );
+		const isGeneralSettingsError = Boolean( getSettingsError( 'general' ) );
+		const isGeneralSettingsRequesting = isGetSettingsRequesting( 'general' );
+		const countryCode = getCountryCode( generalSettings.woocommerce_default_country );
+
+		const { tax: taxSettings } = getSettingsForGroup( 'tax', [ 'tax' ] );
+		const isTaxSettingsError = Boolean( getSettingsError( 'tax' ) );
+		const isTaxSettingsRequesting = isGetSettingsRequesting( 'tax' );
+
+		return {
+			isGeneralSettingsError,
+			isGeneralSettingsRequesting,
+			generalSettings,
+			countryCode,
+			taxSettings,
+			isTaxSettingsError,
+			isTaxSettingsRequesting,
 		};
 	} ),
 	withDispatch( dispatch => {
