@@ -44,7 +44,7 @@ export const getIsDirty = ( state, group, keys = [] ) => {
 export const getSettingsForGroup = ( state, group, keys ) => {
 	const allSettings = getSettings( state, group );
 	return keys.reduce( ( accumulator, key ) => {
-		accumulator[ key ] = allSettings[ key ] || null;
+		accumulator[ key ] = allSettings[ key ] || {};
 		return accumulator;
 	}, {} );
 };
@@ -88,7 +88,7 @@ export const getLastSettingsErrorForGroup = ( state, group ) => {
 
 export const getSettingsError = ( state, group, id ) => {
 	if ( ! id ) {
-		return state[ group ].error || false;
+		return state[ group ] && state[ group ].error || false;
 	}
 	return state[ getResourceName( group, id ) ].error || false;
 };

@@ -13,15 +13,14 @@ import { NAMESPACE } from '../constants';
 import { STORE_NAME } from './constants';
 import { updateSettingsForGroup, updateErrorForGroup } from './actions';
 
-function settingsToSettingsResource( resourceName, settings ) {
+function settingsToSettingsResource( settings ) {
 	return settings.reduce( ( resource, setting ) => {
-		const { id, ...data } = setting;
-		resource[ id ] = data;
+		resource[ setting.id ] = setting.value;
 		return resource;
 	}, {} );
 }
 
-export function* getSettings( group ) {
+export function* getSettingsForGroup( group ) {
 	yield dispatch( STORE_NAME, 'setIsPersisting', group, true );
 
 	try {
@@ -31,9 +30,9 @@ export function* getSettings( group ) {
 			method: 'GET',
 		} );
 
-		const resource = settingsToSettingsResource( group, results );
+		const resource = settingsToSettingsResource( results );
 
-		return updateSettingsForGroup( group, resource );
+		return updateSettingsForGroup( group, { [ group ]: resource } );
 	} catch ( error ) {
 		return updateErrorForGroup( group, null, error.message );
 	}

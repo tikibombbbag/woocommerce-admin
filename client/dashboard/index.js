@@ -15,16 +15,20 @@ import withSelect from 'wc-api/with-select';
 import { isOnboardingEnabled } from 'dashboard/utils';
 import { withSettingsHydration } from '@woocommerce/data';
 
-const HydratedProfileWizard = withSettingsHydration( 'general', {
-	general: window.wcSettings.preloadSettings.general,
-} )( ProfileWizard );
+let PossiblyHydratedProfileWizard = ProfileWizard;
+
+if ( window.wcSettings.preloadSetting && window.wcSettings.preloadSetting.general ) {
+	PossiblyHydratedProfileWizard = withSettingsHydration( 'general', {
+		general: window.wcSettings.preloadSettings.general,
+	} )( ProfileWizard );
+}
 
 class Dashboard extends Component {
 	render() {
 		const { path, profileItems, query } = this.props;
 
 		if ( isOnboardingEnabled() && ! profileItems.completed ) {
-			return <HydratedProfileWizard query={ query } />;
+			return <PossiblyHydratedProfileWizard query={ query } />;
 		}
 
 		if ( window.wcAdminFeatures[ 'analytics-dashboard/customizable' ] ) {
