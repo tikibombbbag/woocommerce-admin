@@ -303,7 +303,7 @@ class Tax extends Component {
 
 	render() {
 		const { isPending, stepIndex } = this.state;
-		const { isGeneralSettingsRequesting, isTaxSettingsRequesting } = this.props;
+		const { isGeneralSettingsRequesting, isTaxSettingsRequesting, taxSettings } = this.props;
 		const step = this.getSteps()[ stepIndex ];
 
 		return (
@@ -342,6 +342,7 @@ class Tax extends Component {
 							</p>
 							<Button
 								isPrimary
+								isBusy={ Object.keys( taxSettings ).length && isTaxSettingsRequesting }
 								onClick={ () => {
 									recordEvent( 'tasklist_tax_setup_automated_proceed', {
 										setup_automatically: true,
