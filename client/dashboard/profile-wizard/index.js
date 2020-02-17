@@ -192,6 +192,7 @@ class ProfileWizard extends Component {
 	completeProfiler() {
 		const { notes, updateNote, updateProfileItems } = this.props;
 		updateProfileItems( { completed: true } );
+		recordEvent( 'storeprofiler_complete' );
 
 		const profilerNote = notes.find(
 			( note ) => note.name === 'wc-admin-onboarding-profiler-reminder'
