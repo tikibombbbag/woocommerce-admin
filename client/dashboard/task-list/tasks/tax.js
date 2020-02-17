@@ -388,16 +388,16 @@ export default compose(
 		};
 	} ),
 	withSelect( select => {
-		const { getSettingsForGroup, getSettingsError, isGetSettingsRequesting } = select(
+		const { getSettings, getSettingsError, isGetSettingsRequesting } = select(
 			SETTINGS_STORE_NAME
 		);
 
-		const { general: generalSettings } = getSettingsForGroup( 'general', [ 'general' ] );
+		const { general: generalSettings = {} } = getSettings( 'general' );
 		const isGeneralSettingsError = Boolean( getSettingsError( 'general' ) );
 		const isGeneralSettingsRequesting = isGetSettingsRequesting( 'general' );
 		const countryCode = getCountryCode( generalSettings.woocommerce_default_country );
 
-		const { tax: taxSettings } = getSettingsForGroup( 'tax', [ 'tax' ] );
+		const { tax: taxSettings = {} } = getSettings( 'tax' );
 		const isTaxSettingsError = Boolean( getSettingsError( 'tax' ) );
 		const isTaxSettingsRequesting = isGetSettingsRequesting( 'tax' );
 

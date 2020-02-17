@@ -10,7 +10,7 @@ import { useSelect } from '@wordpress/data';
  */
 import { STORE_NAME } from './constants';
 
-export const withSettingsHydration = ( group, settings, keys ) => OriginalComponent => {
+export const withSettingsHydration = ( group, settings ) => OriginalComponent => {
 	return props => {
 		const settingsRef = useRef( settings );
 
@@ -28,13 +28,13 @@ export const withSettingsHydration = ( group, settings, keys ) => OriginalCompon
 			} = registry.dispatch( STORE_NAME );
 
 			if (
-				! isResolving( 'getSettingsForGroup', [ group, keys ] ) &&
-				! hasFinishedResolution( 'getSettingsForGroup', [ group, keys ] )
+				! isResolving( 'getSettings', [ group ] ) &&
+				! hasFinishedResolution( 'getSettings', [ group ] )
 			) {
-				startResolution( 'getSettingsForGroup', [ group, keys ] );
+				startResolution( 'getSettings', [ group ] );
 				updateSettingsForGroup( group, settingsRef.current );
 				clearIsDirty( group );
-				finishResolution( 'getSettingsForGroup', [ group, keys ] );
+				finishResolution( 'getSettings', [ group ] );
 			}
 		}, [] );
 

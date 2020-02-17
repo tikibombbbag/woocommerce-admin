@@ -190,11 +190,11 @@ export default compose(
 		};
 	} ),
 	withSelect( select => {
-		const { getSettingsForGroup, getSettingsError, isGetSettingsRequesting } = select(
+		const { getSettings, getSettingsError, isGetSettingsRequesting } = select(
 			SETTINGS_STORE_NAME
 		);
 
-		const { general: settings } = getSettingsForGroup( 'general', [ 'general' ] );
+		const { general: settings = {} } = getSettings( 'general' );
 		const isSettingsError = Boolean( getSettingsError( 'general' ) );
 		const isSettingsRequesting = isGetSettingsRequesting( 'general' );
 

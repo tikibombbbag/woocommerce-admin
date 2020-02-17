@@ -18,13 +18,9 @@ import { withSettingsHydration } from '@woocommerce/data';
 let PossiblyHydratedProfileWizard = ProfileWizard;
 
 if ( window.wcSettings.preloadSettings && window.wcSettings.preloadSettings.general ) {
-	PossiblyHydratedProfileWizard = withSettingsHydration(
-		'general',
-		{
-			general: window.wcSettings.preloadSettings.general,
-		},
-		[ 'general' ]
-	)( ProfileWizard );
+	PossiblyHydratedProfileWizard = withSettingsHydration( 'general', {
+		general: window.wcSettings.preloadSettings.general,
+	} )( ProfileWizard );
 }
 
 class Dashboard extends Component {

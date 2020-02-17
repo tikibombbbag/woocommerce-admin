@@ -20,7 +20,7 @@ function settingsToSettingsResource( settings ) {
 	}, {} );
 }
 
-export function* getSettingsForGroup( group ) {
+export function* getSettings( group ) {
 	yield dispatch( STORE_NAME, 'setIsRequesting', group, true );
 
 	try {
@@ -36,4 +36,8 @@ export function* getSettingsForGroup( group ) {
 	} catch ( error ) {
 		return updateErrorForGroup( group, null, error.message );
 	}
+}
+
+export function* getSettingsForGroup( group ) {
+	return getSettings( group );
 }

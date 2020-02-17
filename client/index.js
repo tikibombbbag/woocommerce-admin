@@ -17,15 +17,15 @@ const appRoot = document.getElementById( 'root' );
 const settingsGroup = 'wc_admin';
 
 if ( appRoot ) {
-	const HydratedPageLayout = withSettingsHydration( settingsGroup, window.wcSettings, [
-		'wcAdminSettings',
-	] )( PageLayout );
+	const HydratedPageLayout = withSettingsHydration( settingsGroup, window.wcSettings )(
+		PageLayout
+	);
 	render( <HydratedPageLayout />, appRoot );
 } else {
 	const embeddedRoot = document.getElementById( 'woocommerce-embedded-root' );
-	const HydratedEmbedLayout = withSettingsHydration( settingsGroup, window.wcSettings, [
-		'wcAdminSettings',
-	] )( EmbedLayout );
+	const HydratedEmbedLayout = withSettingsHydration( settingsGroup, window.wcSettings )(
+		EmbedLayout
+	);
 	// Render the header.
 	render( <HydratedEmbedLayout />, embeddedRoot );
 
