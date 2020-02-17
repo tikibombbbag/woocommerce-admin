@@ -24,7 +24,7 @@ const updateGroupDataInNewState = ( newState, { group, groupIds, data, time, err
 const receiveSettings = ( state = {}, { type, group, data, error, time, isRequesting } ) => {
 	const newState = {};
 	switch ( type ) {
-		case TYPES.SET_IS_PERSISTING:
+		case TYPES.SET_IS_REQUESTING:
 			state = {
 				...state,
 				[ group ]: {

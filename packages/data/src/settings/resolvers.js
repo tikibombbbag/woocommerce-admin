@@ -21,7 +21,7 @@ function settingsToSettingsResource( settings ) {
 }
 
 export function* getSettingsForGroup( group ) {
-	yield dispatch( STORE_NAME, 'setIsPersisting', group, true );
+	yield dispatch( STORE_NAME, 'setIsRequesting', group, true );
 
 	try {
 		const url = NAMESPACE + '/settings/' + group;

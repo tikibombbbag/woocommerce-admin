@@ -28,13 +28,13 @@ export const withSettingsHydration = ( group, settings ) => OriginalComponent =>
 			} = registry.dispatch( STORE_NAME );
 
 			if (
-				! isResolving( 'getSettings', [ group ] ) &&
-				! hasFinishedResolution( 'getSettings', [ group ] )
+				! isResolving( 'getSettingsForGroup', [ group ] ) &&
+				! hasFinishedResolution( 'getSettingsForGroup', [ group ] )
 			) {
-				startResolution( 'getSettings', [ group ] );
+				startResolution( 'getSettingsForGroup', [ group ] );
 				updateSettingsForGroup( group, settingsRef.current );
 				clearIsDirty( group );
-				finishResolution( 'getSettings', [ group ] );
+				finishResolution( 'getSettingsForGroup', [ group ] );
 			}
 		}, [] );
 
